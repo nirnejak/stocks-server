@@ -1,0 +1,18 @@
+{
+  "go.lintOnSave": "package",
+  "go.formatTool": "goimports",
+  "go.autocompleteUnimportedPackages": true,
+  "go.testFlags": ["-v"],
+  "gopls": { 
+    "ui.semanticTokens": true,
+  },
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.defaultFormatter": "golang.go",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "cSpell.words": [],
+}
