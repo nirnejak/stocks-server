@@ -17,11 +17,67 @@ func GetDatabase() (*sql.DB, error) {
 	return db, err
 }
 
+type stock struct {
+	symbol              string
+	name                string
+	sector              string
+	price               float32
+	price_per_earnings  sql.NullFloat64
+	dividend_yield      float32
+	earnings_per_share  float32
+	fifty_two_week_low  float32
+	fifty_two_week_high float32
+	market_cap          float64
+	EBITDA              float64
+	price_per_sales     float32
+	price_per_book      sql.NullFloat64
+	sec_filings         string
+}
+
 func GetStocks(c *gin.Context) {
-	// TODO: Get stocks from database
+	db, err := GetDatabase()
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	results, err := db.Query("SELECT * FROM snp_500_financials")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		panic(err)
+	}
+	defer results.Close()
+
+	var stocks []stock
+	for results.Next() {
+		var stock stock
+
+		err := results.Scan(
+			&stock.symbol,
+			&stock.name,
+			&stock.sector,
+			&stock.price,
+			&stock.price_per_earnings,
+			&stock.dividend_yield,
+			&stock.earnings_per_share,
+			&stock.fifty_two_week_low,
+			&stock.fifty_two_week_high,
+			&stock.market_cap,
+			&stock.EBITDA,
+			&stock.price_per_sales,
+			&stock.price_per_book,
+			&stock.sec_filings,
+		)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+			panic(err)
+		}
+
+		stocks = append(stocks, stock)
+	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "get users",
+		"stocks": stocks,
 	})
 }
 
@@ -31,12 +87,12 @@ func GetStock(c *gin.Context) {
 	// TODO: Get stock from database
 
 	if len(symbol) < 2 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Stock"})
+		c.JSON(http.StatusBadRequest, gin.H{"err": "Invalid Stock"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"symbol": symbol,
+		"stock": "stock",
 	})
 
 }
