@@ -79,6 +79,7 @@ func main() {
 
 	r := gin.Default()
 
+	// Database
 	db, err := GetDatabase()
 	if err != nil {
 		panic(err)
@@ -87,6 +88,7 @@ func main() {
 		panic(err)
 	}
 	fmt.Println("Successfully connected to PlanetScale!")
+	defer db.Close()
 
 	r.GET("/stocks/", GetStocks)
 	r.GET("/stocks/:symbol", GetStock)
