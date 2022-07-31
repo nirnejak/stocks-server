@@ -38,6 +38,7 @@ type stock struct {
 func GetStocks(c *gin.Context) {
 	db, err := GetDatabase()
 	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
 		panic(err)
 	}
 	defer db.Close()
@@ -92,6 +93,7 @@ func GetStock(c *gin.Context) {
 
 	db, err := GetDatabase()
 	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
 		panic(err)
 	}
 	defer db.Close()
