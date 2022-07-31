@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -84,17 +85,60 @@ func GetStocks(c *gin.Context) {
 func GetStock(c *gin.Context) {
 	symbol := c.Param("symbol")
 
-	// TODO: Get stock from database
-
 	if len(symbol) < 2 {
-		c.JSON(http.StatusBadRequest, gin.H{"err": "Invalid Stock"})
+		c.JSON(http.StatusBadRequest, gin.H{"err": "Invalid Stock Symbol"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"stock": "stock",
-	})
+	db, err := GetDatabase()
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
+	results, err := db.Query("SELECT * FROM snp_500_financials WHERE symbol = ?", strings.ToUpper(symbol))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+		panic(err)
+	}
+	defer results.Close()
+
+	IsStockFound := false
+	for results.Next() {
+		IsStockFound = true
+		var stock stock
+
+		err := results.Scan(
+			&stock.symbol,
+			&stock.name,
+			&stock.sector,
+			&stock.price,
+			&stock.price_per_earnings,
+			&stock.dividend_yield,
+			&stock.earnings_per_share,
+			&stock.fifty_two_week_low,
+			&stock.fifty_two_week_high,
+			&stock.market_cap,
+			&stock.EBITDA,
+			&stock.price_per_sales,
+			&stock.price_per_book,
+			&stock.sec_filings,
+		)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"err": err})
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"stock": stock,
+		})
+	}
+
+	if !IsStockFound {
+		c.JSON(http.StatusNotFound, gin.H{
+			"err": "Stock Not Found",
+		})
+	}
 }
 
 func CreateStock(c *gin.Context) {
