@@ -1,4 +1,4 @@
-module github.com/nirnejak/app-server
+module github.com/nirnejak/stocks-server
 
 go 1.18
 

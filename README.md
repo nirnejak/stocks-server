@@ -1,1 +1,1 @@
-# app-server
+# stocks-server
