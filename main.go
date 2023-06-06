@@ -18,7 +18,7 @@ func GetDatabase() (*sql.DB, error) {
 	return db, err
 }
 
-type stock struct {
+type STOCK struct {
 	symbol              string
 	name                string
 	sector              string
@@ -50,9 +50,9 @@ func GetStocks(c *gin.Context) {
 	}
 	defer results.Close()
 
-	var stocks []stock
+	var stocks []STOCK
 	for results.Next() {
-		var stock stock
+		var stock STOCK
 
 		err := results.Scan(
 			&stock.symbol,
@@ -108,7 +108,7 @@ func GetStock(c *gin.Context) {
 	IsStockFound := false
 	for results.Next() {
 		IsStockFound = true
-		var stock stock
+		var stock STOCK
 
 		err := results.Scan(
 			&stock.symbol,
