@@ -9,7 +9,7 @@ go run .
 <br>
 <br>
 
-# Setup and Seed Database
+## Setup and Seed Database
 
 **Create a database with the script below**
 
@@ -77,7 +77,7 @@ INSERT INTO snp_500_financials (
 <br>
 <br>
 
-# cURL Commands
+## cURL Commands
 
 **Get all Stocks**
 
