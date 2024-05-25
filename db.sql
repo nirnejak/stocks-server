@@ -1,14 +1,3 @@
-# stocks-server
-
-**Run Server**
-
-```bash
-go run main.go
-```
-
-**Create a database with the script below**
-
-```sql
 CREATE TABLE snp_500_financials (
   symbol              VARCHAR(255),
   name                VARCHAR(255),
@@ -26,11 +15,6 @@ CREATE TABLE snp_500_financials (
   sec_filings         VARCHAR(255)
 );
 
-```
-
-** Seed Database(with sample data)**
-
-```sql
 INSERT INTO snp_500_financials (
   symbol,
   name,
@@ -67,7 +51,3 @@ INSERT INTO snp_500_financials (
 ('PYPL', 'PayPal Holdings Inc.', 'Information Technology', 261.57, 80.45, 0.0, 3.25, 160.00, 309.14, 0.31e12, 4.18e9, 19.50, 15.72, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001633917'),
 ('ADBE', 'Adobe Inc.', 'Information Technology', 512.45, 48.72, 0.0, 10.51, 420.78, 536.88, 0.24e12, 7.45e9, 20.50, 13.57, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000796343'),
 ('NFLX', 'Netflix Inc.', 'Communication Services', 503.55, 83.74, 0.0, 6.01, 384.00, 593.29, 0.23e12, 9.36e9, 8.74, 20.01, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001065280');
-
-```
-
-Alternatively you can use `db.sql` file
