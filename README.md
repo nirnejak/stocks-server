@@ -8,7 +8,6 @@ go run .
 
 <br>
 <br>
-<br>
 
 # Setup and Seed Database
 
@@ -75,7 +74,6 @@ INSERT INTO snp_500_financials (
 ('NFLX', 'Netflix Inc.', 'Communication Services', 503.55, 83.74, 0.0, 6.01, 384.00, 593.29, 0.23e12, 9.36e9, 8.74, 20.01, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001065280');
 ```
 
-<br>
 <br>
 <br>
 
