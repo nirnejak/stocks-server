@@ -67,7 +67,68 @@ INSERT INTO snp_500_financials (
 ('PYPL', 'PayPal Holdings Inc.', 'Information Technology', 261.57, 80.45, 0.0, 3.25, 160.00, 309.14, 0.31e12, 4.18e9, 19.50, 15.72, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001633917'),
 ('ADBE', 'Adobe Inc.', 'Information Technology', 512.45, 48.72, 0.0, 10.51, 420.78, 536.88, 0.24e12, 7.45e9, 20.50, 13.57, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000796343'),
 ('NFLX', 'Netflix Inc.', 'Communication Services', 503.55, 83.74, 0.0, 6.01, 384.00, 593.29, 0.23e12, 9.36e9, 8.74, 20.01, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001065280');
-
 ```
 
 Alternatively you can use `db.sql` file
+
+### cURL Commands
+
+**Get all Stocks**
+
+```bash
+curl http://localhost:8080/stocks
+```
+
+**Get a Stock**
+
+```bash
+curl http://localhost:8080/stocks/NFLX
+```
+
+**Create Stock**
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{
+  "symbol": "NFLX",
+  "name": "Netflix Inc.",
+  "sector": "Communication Services",
+  "price": 503.55,
+  "price_per_earnings": 83.74,
+  "dividend_yield": 0.0,
+  "earnings_per_share": 6.01,
+  "fifty_two_week_low": 384.00,
+  "fifty_two_week_high": 593.29,
+  "market_cap": 0.23e12,
+  "EBITDA": 9.36e9,
+  "price_per_sales": 8.74,
+  "price_per_book": 20.01,
+  "sec_filings": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001065280"
+}' http://localhost:8080/stocks
+
+```
+
+**Update Stock**
+
+```bash
+curl -X PUT -H "Content-Type: application/json" -d '{
+  "name": "Netflix Inc",
+  "sector": "Communication Services",
+  "price": 503.55,
+  "price_per_earnings": 83.74,
+  "dividend_yield": 0,
+  "earnings_per_share": 6.01,
+  "fifty_two_week_low": 384,
+  "fifty_two_week_high": 593.29,
+  "market_cap": 230000000000,
+  "EBITDA": 9360000000,
+  "price_per_sales": 8.74,
+  "price_per_book": 20.01,
+  "sec_filings": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001065280"
+}' http://localhost:8080/stocks/NFLX
+```
+
+**Delete Stock**
+
+```bash
+curl -X DELETE http://localhost:8080/stocks/NFLX
+```
