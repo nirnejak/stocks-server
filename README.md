@@ -3,7 +3,7 @@
 **Run Server**
 
 ```bash
-go run main.go
+go run .
 ```
 
 **Create a database with the script below**
