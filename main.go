@@ -19,20 +19,20 @@ func GetDatabase() (*sql.DB, error) {
 }
 
 type STOCK struct {
-	symbol              string
-	name                string
-	sector              string
-	price               float32
+	symbol              sql.NullString
+	name                sql.NullString
+	sector              sql.NullString
+	price               sql.NullFloat64
 	price_per_earnings  sql.NullFloat64
-	dividend_yield      float32
-	earnings_per_share  float32
-	fifty_two_week_low  float32
-	fifty_two_week_high float32
-	market_cap          float64
-	EBITDA              float64
-	price_per_sales     float32
+	dividend_yield      sql.NullFloat64
+	earnings_per_share  sql.NullFloat64
+	fifty_two_week_low  sql.NullFloat64
+	fifty_two_week_high sql.NullFloat64
+	market_cap          sql.NullFloat64
+	EBITDA              sql.NullFloat64
+	price_per_sales     sql.NullFloat64
 	price_per_book      sql.NullFloat64
-	sec_filings         string
+	sec_filings         sql.NullString
 }
 
 func GetStocks(c *gin.Context) {
