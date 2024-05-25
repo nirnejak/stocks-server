@@ -129,12 +129,46 @@ func CreateStock(c *gin.Context) {
 func UpdateStock(c *gin.Context) {
 	symbol := c.Param("symbol")
 
-	// Implementation for updating a stock in the database
+	var stock STOCK
+	if err := c.BindJSON(&stock); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
+	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"symbol":  symbol,
-		"message": "Stock Updated",
-	})
+	db := GetDB()
+	result, err := db.Exec("UPDATE snp_500_financials SET name=?, sector=?, price=?, price_per_earnings=?, dividend_yield=?, earnings_per_share=?, fifty_two_week_low=?, fifty_two_week_high=?, market_cap=?, EBITDA=?, price_per_sales=?, price_per_book=?, sec_filings=? WHERE symbol=?",
+		stock.Name,
+		stock.Sector,
+		stock.Price,
+		stock.PricePerEarnings,
+		stock.DividendYield,
+		stock.EarningsPerShare,
+		stock.FiftyTwoWeekLow,
+		stock.FiftyTwoWeekHigh,
+		stock.MarketCap,
+		stock.EBITDA,
+		stock.PricePerSales,
+		stock.PricePerBook,
+		stock.SecFilings,
+		symbol,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Stock Not Found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Stock updated successfully"})
 }
 
 func DeleteStock(c *gin.Context) {
