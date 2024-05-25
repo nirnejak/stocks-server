@@ -105,7 +105,23 @@ func UpdateStock(c *gin.Context) {
 func DeleteStock(c *gin.Context) {
 	symbol := c.Param("symbol")
 
-	// Implementation for deleting a stock from the database
+	db := GetDB()
+	result, err := db.Exec("DELETE FROM snp_500_financials WHERE symbol = ?", symbol)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Stock Not Found"})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"symbol":  symbol,
