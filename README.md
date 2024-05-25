@@ -28,7 +28,7 @@ CREATE TABLE snp_500_financials (
 
 ```
 
-** Seed Database(with sample data)**
+**Seed Database(with sample data)** _Alternatively you can use `db.sql` file_
 
 ```sql
 INSERT INTO snp_500_financials (
@@ -68,8 +68,6 @@ INSERT INTO snp_500_financials (
 ('ADBE', 'Adobe Inc.', 'Information Technology', 512.45, 48.72, 0.0, 10.51, 420.78, 536.88, 0.24e12, 7.45e9, 20.50, 13.57, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000796343'),
 ('NFLX', 'Netflix Inc.', 'Communication Services', 503.55, 83.74, 0.0, 6.01, 384.00, 593.29, 0.23e12, 9.36e9, 8.74, 20.01, 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001065280');
 ```
-
-Alternatively you can use `db.sql` file
 
 ### cURL Commands
 
